@@ -1,4 +1,8 @@
 const itemService = require("../services/items.service");
+const db = require("../utils/firebase");
+
+const collection = db.collection("items");
+
 
 exports.getItems = async (req, res) => {
 
@@ -67,34 +71,42 @@ exports.deleteItem = async (req, res) => {
 exports.updateItemAI = async (req, res) => {
 
   try {
-      
-    const { category, tags, shortSummary, improvedDescription } = req.body;
 
-  await collection.doc(req.params.id).update({
-
-    ai: {
+    const {
       category,
       tags,
       shortSummary,
       improvedDescription
-    },
+    } = req.body;
 
-    automation:{
-      status: "completed",
-      processedAt: new Date().toString()
-    }
-  });
+    await collection.doc(req.params.id).update({
 
-  res.json({message: "AI enrichment updated"});
+      ai: {
+        category,
+        tags,
+        shortSummary,
+        improvedDescription
+      },
 
+      automation: {
+        status: "completed",
+        processedAt: new Date().toISOString()
+      }
+
+    });
+
+    res.json({
+      message: "AI enrichment updated :)"
+    });
 
   } catch (error) {
-      console.error(err);
+
+    console.error("AI UPDATE ERROR:", error);
 
     res.status(500).json({
       message: "Error updating AI enrichment"
     });
+
   }
-  
 
 };
