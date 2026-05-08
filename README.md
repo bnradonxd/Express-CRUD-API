@@ -1,8 +1,8 @@
-# Express CRUD API
+# AI Product Management System
 
-A lightweight inventory manager built with Node.js and Express, powered by Firebase for real-time data persistence and automated workflows using n8n.
+A full-stack product management system built with Node.js, Express and Firebase, featuring REST APIs, workflow automation with n8n, AI-powered product enrichment using Google Gemini and real-time synchronization with Google Sheets.
 
-This started as a university exercise. The initial goal was to connect a backend to a real UI beyond Postman. It evolved into a fully deployed full-stack app with a public API, cloud database, automation workflows and live frontend.
+This project started as a university CRUD exercise focused on connecting a backend to a real frontend beyond Postman. It evolved into a production-ready application integrating cloud deployment, automation workflows, asynchronous processing and generative AI services.
 
 ---
 
@@ -16,45 +16,56 @@ This started as a university exercise. The initial goal was to connect a backend
 
 ## What it does
 
-- Create, read, update and delete products from a clean interface  
-- Frontend communicates with a deployed REST API  
-- Real-time stats (total products, total value)  
-- Error handling for network/server failures  
-- Delete confirmation to avoid accidental data loss  
-- Data persistence using Firebase (Firestore)  
-- Logging middleware captures incoming requests  
-- **Webhook integration with n8n for real-time automation**  
-- **Automatic sync of data into Google Sheets**  
+- Create, read, update and delete products from a deployed frontend
+- REST API connected to Firebase Firestore
+- Real-time frontend synchronization with backend updates
+- AI-powered automatic product enrichment using Google Gemini
+- Automatic generation of:
+  - Product categories
+  - Optimized descriptions
+  - Short summaries
+  - Dynamic tags
+- Workflow automation using n8n and webhooks
+- Automatic synchronization with Google Sheets
+- Error handling and application state management
+- CORS configuration between frontend and backend deployments
+- Modular backend architecture following REST API best practices
 
 ---
 
-## Tech stack
+## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
 | Backend | Node.js, Express |
-| Frontend | Vanilla JS, HTML, CSS |
-| Database | Firebase (Firestore) |
+| Frontend | Vanilla JavaScript, HTML, CSS |
+| Database | Firebase Firestore |
 | Automation | n8n (Webhooks + Workflows) |
+| AI Integration | Google Gemini |
 | Backend Deployment | Render |
 | Frontend Deployment | Vercel |
 | Automation Hosting | Railway |
-| Logging | Custom middleware logger |
+| Tools | Git, GitHub, Postman |
 
 ---
 
 ## Project structure
 
-
-
+```bash
 ├── src/
-│   ├── controllers/  # Business logic for each endpoint
-│   ├── routes/       # API routes
-│   └── utils/        # Logger and Firebase config
-├── front/            # Frontend (HTML, CSS, JS)
-├── server.js         # Express app setup
-├── index.js          # Entry point for deployment
-└── package.json     
+│   ├── controllers/   # Business logic
+│   ├── routes/        # API routes
+│   ├── services/      # External integrations
+│   └── utils/         # Firebase config and helpers
+│
+├── front/             # Frontend files
+│   ├── app.js
+│   ├── style.css
+│   └── index.html
+│
+├── server.js
+├── index.js
+└── package.json  
 
 ---
 
@@ -62,33 +73,37 @@ This started as a university exercise. The initial goal was to connect a backend
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | /items | Get all items |
-| GET | /items/:id | Get item by id |
-| POST | /items | Create item |
-| PUT | /items/:id | Update item |
-| DELETE | /items/:id | Delete item |
+| GET | /items |Get all products |
+| GET | /items/:id | Get products by id |
+| POST | /items | Create product|
+| PUT | /items/:id | Update product|
+| DELETE | /items/:id | Delete product|
 
 ---
 
 ## How it works
 
-- The frontend sends HTTP requests using `fetch()` to the deployed API  
-- The Express backend handles routing, validation and business logic  
-- Controllers interact with Firebase using the Admin SDK  
-- Data is stored in a Firestore collection (`items`)  
-- A webhook is triggered on item creation  
-- n8n receives the webhook and processes the data  
-- The workflow automatically stores the data into Google Sheets  
-- Responses are returned as JSON and rendered dynamically in the UI  
+- The frontend sends HTTP requests using fetch() to the deployed API
+- Express handles routing, validation and business logic
+- Firebase Firestore stores product data
+- A webhook is triggered when a new product is created
+- n8n receives and processes the request
+- Google Gemini generates AI-enhanced product information
+- Firestore updates automatically with enriched data
+- Product information is synchronized into Google Sheets
+- Updated data is rendered dynamically on the frontend
 
 ---
 
-## Automation Flow (n8n)
+## Automation Flow
 
-1. Item is created via API (POST /items)  
-2. Backend sends data to an n8n webhook  
-3. n8n workflow processes the request  
-4. Data is mapped and inserted into Google Sheets  
+1. Product is created through the API
+2. Backend triggers an n8n webhook
+3. n8n processes the product data 
+4. Google Gemini generates enhanced information 
+5. Firestore updates automatically
+6. Data is synchronized with Google Sheets
+7. Frontend updates dynamically
 
 ---
 
@@ -119,31 +134,41 @@ For deployment, Firebase credentials are handled using environment variables ins
 FIREBASE_PROJECT_ID=YOUR_PROJECT_ID
 FIREBASE_CLIENT_EMAIL=YOUR_EMAIL
 FIREBASE_PRIVATE_KEY=YOUR_KEY
+
+N8N_WEBHOOK_URL=YOUR_WEBHOOK
+GEMINI_API_KEY=YOUR_API_KEY
 ```
 
 ---
 
-## What I improved from the initial version
+## Features implemented
 
-- Deployed backend to production (Render)
-- Deployed frontend (Vercel)
-- Connected frontend to a live API
-- Moved Firebase credentials to environment variables
-- Handled CORS issues
-- Structured project for real-world usage
-- Implemented webhook-based automation with n8n
-- Integrated external services (Google Sheets)
-
+- Production-ready REST API deployment
+- Firebase Firestore integration
+- Full CRUD operations
+- Frontend connected to live backend
+- Workflow automation using n8n
+- AI-powered product enhancement
+- Google Sheets synchronization
+- Real-time frontend updates
+- Error handling and validation
+- Cloud deployment architecture
+- CORS handling
+- Modular backend structure
 
 ---
 
-## What I'd improve next
+## Future Improvements
 
-- Add authentication (users & roles)
-- Input validation (Joi / Zod)
-- Pagination & filtering
-- Better UI/UX
-- Event-based architecture (queues / async processing)
+- Authentication and authorization
+- Role-based access
+- Image generation and upload support
+- Pagination and filtering
+- Docker containerization
+- CI/CD pipelines
+- WebSocket real-time updates
+- Queue-based asynchronous processing
+- Automated testing
 
 ---
 
