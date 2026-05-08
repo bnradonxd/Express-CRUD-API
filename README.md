@@ -78,7 +78,7 @@ This project started as a university CRUD exercise focused on connecting a backe
 | POST | /items | Create product|
 | PUT | /items/:id | Update product|
 | DELETE | /items/:id | Delete product|
-
+```
 ---
 
 ## How it works
