@@ -16,7 +16,7 @@
   --green:        #47cc83;
   --red:          #e05c7a;
   --amber:        #f0b840;
-
+  --blue:        #40cdf0;
 
   --radius:       18px;
   --radius-sm:    12px;
@@ -434,4 +434,62 @@ td:first-child {
   .layout { grid-template-columns: 1fr; }
   .sidebar { height: auto; position: static; }
   .content { padding: 1.5rem; }
+}
+
+.product-main{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.ai-category{
+  width:fit-content;
+  font-size:0.7rem;
+  font-weight:700;
+  padding:4px 10px;
+  border-radius:999px;
+  background:rgba(71,204,131,0.12);
+  color:var(--accent2);
+  border:1px solid rgba(71,204,131,0.25);
+}
+
+.ai-summary{
+  font-size:0.82rem;
+  color:var(--text-soft);
+  line-height:1.5;
+}
+
+.ai-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+
+.tag-pill{
+  font-size:0.72rem;
+  padding:4px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.7);
+  border:1px solid rgba(71,204,131,0.18);
+  color:var(--text-soft);
+}
+
+.ai-status{
+  width:fit-content;
+  font-size:0.72rem;
+  font-weight:600;
+  padding:5px 10px;
+  border-radius:999px;
+}
+
+.ai-status.processing{
+  background:rgba(240,184,64,0.12);
+  color:var(--amber);
+  border:1px solid rgba(240,184,64,0.25);
+}
+
+.ai-status.completed{
+  background:rgba(71,204,131,0.12);
+  color:var(--accent2);
+  border:1px solid rgba(71,204,131,0.25);
 }

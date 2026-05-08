@@ -22,7 +22,7 @@ const emptyState = document.getElementById("empty-state");
 
 const API = "https://express-crud-api-bnradon.onrender.com/items";
 
-// const API = "https://n8n-production-5758.up.railway.app/webhook-test/prueba";
+let lastDataJSON = "";
 
 let itemsData = [];
 let editingID = null;
@@ -71,7 +71,45 @@ function renderItems(items) {
       (item, i) => `
     <tr>
       <td>${i + 1}</td>
-      <td class="item-name">${item.name}</td>
+
+<td class="item-name">
+  <div class="product-main">
+    <strong>${item.name}</strong>
+
+    ${
+      item.ai?.category
+        ? `<span class="ai-category">${item.ai.category}</span>`
+        : ""
+    }
+
+    ${
+      item.ai?.shortSummary
+        ? `<p class="ai-summary">${item.ai.shortSummary}</p>`
+        : ""
+    }
+
+    ${
+      Array.isArray(item.ai?.tags)
+        ? `
+          <div class="ai-tags">
+            ${item.ai.tags
+              .map((tag) => `<span class="tag-pill">${tag}</span>`)
+              .join("")}
+          </div>
+        `
+        : ""
+    }
+
+    ${
+      item.automation?.status === "processing"
+        ? `<span class="ai-status processing">Procesando datos de IA...</span>`
+        : item.automation?.status === "completed"
+        
+          ? `<span class="ai-status completed">AI Info</span>`
+          : ""
+    }
+  </div>
+</td>
       <td class="item-price">$${Number(item.price).toLocaleString("es-CO")}</td>
       <td>
         <div class="actions">
@@ -97,23 +135,42 @@ function renderItems(items) {
   updateStats();
 }
 
+
 // ------ Método GET ------
 
-fetch(API)
-  .then((res) => {
-    if (!res.ok) throw new Error("respuesta no ok");
-    return res.json();
-  })
-  .then((data) => {
+async function loadItems() {
+
+  try {
+    const res = await fetch(API);
+
+    if (!res.ok) {
+      throw new Error("respuesta no ok");
+    }
+
+    const data = await res.json();
+
+    const newDataJSON = JSON.stringify(data);
+
+    if (newDataJSON !== lastDataJSON) {
+
+      lastDataJSON = newDataJSON;
+      itemsData = data;
+      renderItems(itemsData);
+    }
+
     setStatus(true);
-    itemsData = data;
-    renderItems(itemsData);
-  })
-  .catch((err) => {
+
+  } catch (err) {
+
+    console.error("ERROR:", err);
     setStatus(false);
-    console.error("Error al cargar ítems:", err);
     showError("No se pudo conectar al servidor");
-  });
+  }
+}
+
+loadItems();
+
+setInterval(loadItems, 5000);
 
 // ------ Método POST ------
 
