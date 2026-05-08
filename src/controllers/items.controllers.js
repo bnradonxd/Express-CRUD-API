@@ -86,6 +86,7 @@ exports.updateItemAI = async (req, res) => {
         tags,
         shortSummary,
         improvedDescription
+        
       },
 
       automation: {
